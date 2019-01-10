@@ -4,7 +4,7 @@ import "./style.css";
 const Navbar = () =>
   <div>
     <div className="navbar bg-dark row sticky-top shadow">
-      <div className="nav-section col-4 text-center">
+      <div className="nav-section game-logo col-4 text-center">
         Clicky Game
       </div>
       <div className="nav-section col-4 text-center">
