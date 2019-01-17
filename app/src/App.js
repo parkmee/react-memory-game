@@ -21,21 +21,15 @@ class App extends Component {
     this.setState({ characters: this.shuffle(this.state.characters) });
   };
 
-  shuffle = characterArray => {
-    let value;
-    let randomNumber;
-    let arrayLength = characterArray.length;
+  shuffle = characters => {
     
-    while (0 !== arrayLength) {
-      randomNumber = Math.floor(Math.random()* arrayLength);
-      arrayLength -= 1;
-
-      value = characterArray[arrayLength];
-      characterArray[arrayLength] = characterArray[randomNumber];
-      characterArray[randomNumber] = value;
+    for (let i = characters.length; i > 0; i--) {
+      const j = Math.floor(Math.random() * i);
+      const character = characters[i];
+      characters[i] = characters[j];
+      characters[j] = character;
     }
-
-    return characterArray;
+    return characters;
   }
 
   restart = () => {
