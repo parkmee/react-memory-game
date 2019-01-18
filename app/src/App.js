@@ -22,7 +22,6 @@ class App extends Component {
   };
 
   shuffle = characters => {
-    
     for (let i = characters.length; i > 0; i--) {
       const j = Math.floor(Math.random() * i);
       const character = characters[i];
@@ -32,37 +31,34 @@ class App extends Component {
     return characters;
   }
 
-  restart = () => {
+  resetGame = () => {
     if (this.state.score > this.state.topScore) {
-      this.setState({ topScore: this.state.score });
+      this.setState({ 
+        topScore: this.state.score,
+        score: 0
+      });
     }
 
-    this.setState({ score: 0 });
-
     this.state.characters.forEach(character => {
-      this.resetClicks(character.id, false);
+      this.changeClickStatus(character.id, false);
     });
 
     this.setState({ message: incorrectGuessMessage });
   }
 
   checkIfClicked = id => {
-    let value;
-
     this.state.characters.forEach(character => {
       if(character.id === id) {
-        return value = character.checkIfClicked;
+        return character.isClicked;
       }
     })
-
-    return value;
   }
 
-  updateOnClick = (id, isClicked) => {
+  changeClickStatus = (id, isClickedStatus) => {
     this.setState(state => {
       const characters = state.characters.map(character => {
         if (character.id === id) {
-          character.isClicked = isClicked;
+          character.isClicked = isClickedStatus;
         } 
         return character;
       });
@@ -70,17 +66,19 @@ class App extends Component {
     });
   }
 
-  itemClicked = event => {
+  onItemClick = event => {
     const id = event.target.id;
 
     if (this.checkIfClicked(id) === true) {
-      this.restart();
+      this.resetGame();
     } else {
-      this.updateOnClick(id, true);
+      this.changeClickStatus(id, true);
 
-      this.setState({ score: this.state.score + 1});
+      this.setState({ 
+        score: this.state.score + 1,
+        message: correctGuessMessage
+      });
 
-      this.setState({ message: correctGuessMessage });
     }
 
     this.setState({ characters: this.shuffle(this.state.characters) });
