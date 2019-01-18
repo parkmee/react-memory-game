@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import characters from "./characters.json";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
-import Board from "./components/Board";
+import Wrapper from "./components/Wrapper";
 import GameTile from "./components/GameTile";
 
 const startMessage = "Click to Start";
@@ -22,12 +22,15 @@ class App extends Component {
   };
 
   shuffle = characters => {
-    for (let i = characters.length; i > 0; i--) {
+    for (let i = 0; i < characters.length; i++) {
       const j = Math.floor(Math.random() * i);
       const character = characters[i];
       characters[i] = characters[j];
       characters[j] = character;
+      console.log(character);
     }
+
+    console.log(characters);
     return characters;
   }
 
@@ -47,11 +50,14 @@ class App extends Component {
   }
 
   checkIfClicked = id => {
+    console.log(id);
     this.state.characters.forEach(character => {
-      if(character.id === id) {
+      console.log(character);
+      console.log(character.id);
+      if (character.id === id) {
         return character.isClicked;
       }
-    })
+    });
   }
 
   changeClickStatus = (id, isClickedStatus) => {
@@ -67,7 +73,10 @@ class App extends Component {
   }
 
   onItemClick = event => {
+    console.log("clicked");
     const id = event.target.id;
+    console.log(id);
+    console.log(this.checkIfClicked(id));
 
     if (this.checkIfClicked(id) === true) {
       this.resetGame();
@@ -89,15 +98,16 @@ class App extends Component {
       <div>
         <Navbar />
         <Header />
-        <Board>
+        <Wrapper>
           {
-            this.state.characters.map(piece =>
+            this.state.characters.map(item =>
               <GameTile
-                {...piece}
+                {...item}
+                onItemClick={this.onItemClick}
               />
             )
           }
-        </Board>
+        </Wrapper>
       </div>
     )
   }

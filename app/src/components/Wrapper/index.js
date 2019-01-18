@@ -1,9 +1,9 @@
 import React from "react";
 import "./style.css";
 
-const Board = (props) =>
+const Wrapper = (props) =>
 <div className="game-board rounded shadow">
   {props.children}
 </div>
 
-export default Board;
+export default Wrapper;
